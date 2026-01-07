@@ -1,55 +1,114 @@
-Image Convolution Hardware Accelerator (FPGA)
-Project Overview
+# FPGA-Based Image Processing Pipeline Simulator
 
-This project implements a hardware accelerator for 2D image convolution using SystemVerilog on an FPGA.
-The goal is to speed up image processing by performing convolution in parallel hardware instead of software.
+> **C++ Hardware Accelerator Model | Ubuntu Linux | IC Design Training Mega Project**
 
-This project is designed for beginners in hardware-based image processing and focuses on clear architecture and verification.
+---
 
-Objectives
+## Overview
 
-Implement 2D convolution in hardware
+This project implements a **hardware-style image processing pipeline simulator** in C++. It models the architecture and dataflow typically used in **FPGA/SoC-based embedded vision systems** (e.g., Xilinx, Intel, NVIDIA).
 
-Use parallel MAC (Multiply-Accumulate) operations
+The design follows a **hardware modeling mindset** using buffers, FIFOs, registers, and modular pipeline stages.
 
-Verify functionality using SystemVerilog testbench
+---
 
-Understand how hardware accelerators improve performance
+## Pipeline Architecture
 
- Concept Used
+```
+Load → RGB to Grayscale → Smoothing Filter → Convolution (Sobel/Gaussian/Sharpen) → Save
+```
 
-Image Convolution
+Each stage is implemented as an independent module, similar to hardware IP cores.
 
-Parallel Processing
+---
 
-DSP Slices for MAC operations
+## Key Features
 
-Hardware Acceleration
+* **Modular Pipeline Design** (Frame Reader, Converter, Filters, Convolution Engine, Writer)
+* **Struct-based Hardware Modeling** (`Pixel`, `Buffer`, `Kernel`)
+* **Dynamic Memory Management** (heap-based frame buffers)
+* **OOP & Polymorphism** (base `Filter` class with derived filters)
+* **Compile-Time Modes** using `#ifdef` (DEBUG, FPGA_MODE, FIXED_POINT)
+* **Makefile-based Build System**
+* **Multi-file Project Structure** (industry-style)
 
-RTL Design & Verification
+---
 
- Image & Kernel Details
+## Technologies & Concepts
 
-Input Image Size: 12 × 12 (Grayscale)
+* C++ (OOP, Templates, Pointers)
+* Hardware-style dataflow modeling
+* Dynamic memory (new/delete, malloc/free)
+* Function pointers for dynamic filter selection
+* Namespaces for clean architecture
+* Linux (Ubuntu) development environment
 
-Pixel Depth: 8-bit (1 byte per pixel)
+---
 
-Kernel Size: 5 × 5
+## Project Structure
 
-Stride: 1
+```
+FPGA-Image-Pipeline/
+├── src/        # Source files
+├── include/   # Header files
+├── input image
+├── output image
+├── Makefile
+└── README.md
+```
 
-Output Size: 8 × 8
+---
 
- Architecture
+## Build & Run (Ubuntu)
 
-Input image stored in memory
+```bash
+make
+./pipeline
+```
 
-Kernel stored in registers
+### Debug Mode
 
-25 parallel multipliers (for 5×5 kernel)
+```bash
+make DEBUG=1
+```
 
-Adder tree for accumulation
+---
 
-Output stored in output buffer
+## Design Philosophy
 
-Input Image → MAC Units → Adder Tree → Output Memory
+This project is written with **hardware thinking**:
+
+* Buffers → BRAM
+* FIFOs → Streams
+* Modules → IP Cores
+* Pipeline → Dataflow Architecture
+* Registers → Variables
+
+---
+
+## Implemented Advanced Features
+
+* DMA / Streaming simulation
+* Multi-threaded processing
+* Fixed-point data type modeling
+* OpenCV verification
+* CLI-based pipeline control
+
+---
+## Input Image
+<img width="296" height="443" alt="image" src="https://github.com/user-attachments/assets/efbb2949-0213-4fe6-b7e3-0770049b6e89" />
+
+---
+## output Image
+<img width="289" height="440" alt="image" src="https://github.com/user-attachments/assets/c36827d8-f0e7-4a0f-a85d-6883e0f215b2" />
+
+## Author
+
+**Muhammad Shahid Saeed**
+Electronics Engineering Student – IC Design Training
+Developed on Ubuntu Linux
+
+---
+
+> *"Think in hardware. Implement in software."*
+
